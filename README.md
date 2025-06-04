@@ -1,12 +1,12 @@
 # Get Current Directory in .NET
-* 1. C# .NET Framework 4.8 Console App Get Current Folder
-* 2. C# .NET Framework 4.8 Web App Get Current Folder
-* 3. C# .NET Framework 4.8 WebApi Get Current Folder
-* 4. C# .NET Framework 4.8 Windows Service Get Current Folder
-* 5. C# .NET Core ASP.NET Core Get Current Folder
-* 6. C# .NET Core ASP.NET Core Web API Get Current Folder
-* 7. C# .NET Core Windows Service Get Current Folder
-* 8. C# .NET Core Console App Get Current Folder
+1. C# .NET Framework 4.8 Console App Get Current Folder
+2. C# .NET Framework 4.8 Web App Get Current Folder
+3. C# .NET Framework 4.8 WebApi Get Current Folder
+4. C# .NET Framework 4.8 Windows Service Get Current Folder
+5. C# .NET Core ASP.NET Core Get Current Folder
+6. C# .NET Core ASP.NET Core Web API Get Current Folder
+7. C# .NET Core Windows Service Get Current Folder
+8. C# .NET Core Console App Get Current Folder
 
 # 1. C# .NET Framework 4.8 Console App Get Current Folder
 
