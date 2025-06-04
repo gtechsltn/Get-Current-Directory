@@ -1,14 +1,14 @@
 # Get Current Directory in .NET
-01. C# .NET Framework 4.8 Console App Get Current Folder
-02. C# .NET Framework 4.8 ASP.NET Web MVC Get Current Folder
-03. C# .NET Framework 4.8 ASP.NET Web API Get Current Folder
-04. C# .NET Framework 4.8 Windows Service Get Current Folder
-05. C# .NET Core ASP.NET Core Web MVC Get Current Folder
-06. C# .NET Core ASP.NET Core Web API Get Current Folder
-07. C# .NET Core Windows Service Get Current Folder
-08. C# .NET Core Console App Get Current Folder
-09. C# .NET Framework 4.8 MSTest Unit Testing Get Current Folder
-10. C# .NET Core MSTest Unit Testing Get Current Folder
+- 01. C# .NET Framework 4.8 Console App Get Current Folder
+- 02. C# .NET Framework 4.8 ASP.NET Web MVC Get Current Folder
+- 03. C# .NET Framework 4.8 ASP.NET Web API Get Current Folder
+- 04. C# .NET Framework 4.8 Windows Service Get Current Folder
+- 05. C# .NET Core ASP.NET Core Web MVC Get Current Folder
+- 06. C# .NET Core ASP.NET Core Web API Get Current Folder
+- 07. C# .NET Core Windows Service Get Current Folder
+- 08. C# .NET Core Console App Get Current Folder
+- 09. C# .NET Framework 4.8 MSTest Unit Testing Get Current Folder
+- 10. C# .NET Core MSTest Unit Testing Get Current Folder
 
 # 1. C# .NET Framework 4.8 Console App Get Current Folder
 
