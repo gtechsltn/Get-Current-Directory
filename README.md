@@ -374,12 +374,12 @@ string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
 Also points to the executable directory, same as AppContext.BaseDirectory in most cases.
 
-### ✅ 3. Directory.GetCurrentDirectory()
+## ⚠️ 3. Directory.GetCurrentDirectory() — Not Recommended
 ```
 string workingDir = Directory.GetCurrentDirectory();
 ```
 
-Not reliable in services. It may return C:\Windows\System32 depending on how the service is launched.
+⚠️ Not reliable in services. It may return C:\Windows\System32 depending on how the service is launched.
 
 ### ✅ Recommended Approach for .NET Core / .NET 5+ Windows Services
 ```
@@ -421,7 +421,7 @@ using System.IO;
 string workingDir = Directory.GetCurrentDirectory();
 ```
 
-This returns the current working directory — which may not be the same as the executable location if the app was started from another folder (e.g., via shortcut or script).
+⚠️ This returns the current working directory — which may not be the same as the executable location if the app was started from another folder (e.g., via shortcut or script).
 
 ## ✅ Example Comparing All 3
 ```
