@@ -18,22 +18,25 @@ In a C# .NET Framework 4.8 Console App, you can get the current folder (where th
 ```
 string exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
 Console.WriteLine("EXE Directory: " + exeDirectory);
-// => This is most reliable for services and console apps to get the app's physical path.
 ```
+
+This is most reliable for services and console apps to get the app's physical path.
 
 ### ✅ 2. Get the current working directory
 ```
 string currentDirectory = Environment.CurrentDirectory;
 Console.WriteLine("Current Directory: " + currentDirectory);
-// => This returns the working directory (can be different from the EXE location if launched from another path, like PowerShell or a shortcut).
 ```
+
+This returns the working directory (can be different from the EXE location if launched from another path, like PowerShell or a shortcut).
 
 ### ✅ 3. Get full path of the executable
 ```
 string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
 Console.WriteLine("EXE Path: " + exePath);
-// => This returns the full path including the executable filename.
 ```
+
+This returns the full path including the executable filename.
 
 ## 🔁 Example usage:
 ```
@@ -64,20 +67,22 @@ Instead, the correct and reliable method is:
 
 ```
 string appRootPath = Server.MapPath("~");
-// => Returns the physical file system path of the root directory of the web application.
 ```
+
+Returns the physical file system path of the root directory of the web application.
 
 Available in Web Forms (Page or HttpContext) and MVC (Controller context).
 
 ### ✅ In ASP.NET MVC Controller
 ```
 string appRootPath = Server.MapPath("~");
-// Or with HostingEnvironment:
 string appRootPath = System.Web.Hosting.HostingEnvironment.MapPath("~/");
 ```
 
 ### ✅ From a static class or outside HttpContext
+
 Use this if you're not inside a Controller or Page:
+
 ```
 using System.Web.Hosting;
 string appRootPath = HostingEnvironment.MapPath("~/");
@@ -85,9 +90,16 @@ string appRootPath = HostingEnvironment.MapPath("~/");
 
 ### ❌ Avoid in Web Apps:
 ```
-Environment.CurrentDirectory // => returns C:\Windows\System32 under IIS
-AppDomain.CurrentDomain.BaseDirectory // => may point to bin\ or the hosting process dir
+Environment.CurrentDirectory
 ```
+
+returns C:\Windows\System32 under IIS
+
+```
+AppDomain.CurrentDomain.BaseDirectory
+```
+
+may point to bin\ or the hosting process dir
 
 ## 🧪 Example: Read a file from the App_Data folder
 ```
@@ -111,8 +123,9 @@ string rootPath = HostingEnvironment.MapPath("~/");
 ### ✅ In an ApiController
 ```
 string rootPath = System.Web.Hosting.HostingEnvironment.MapPath("~/");
-// => Returns the physical path of the root of the Web API project (e.g., C:\inetpub\wwwroot\YourApp\ or C:\dev\YourApp\ when debugging).
 ```
+
+Returns the physical path of the root of the Web API project (e.g., C:\inetpub\wwwroot\YourApp\ or C:\dev\YourApp\ when debugging).
 
 ### ✅ For files in App_Data, Content, etc.
 ```
@@ -121,9 +134,16 @@ string logsPath = HostingEnvironment.MapPath("~/App_Data/logs.txt");
 
 ### ❌ Avoid These in Web API:
 ```
-Environment.CurrentDirectory // => often returns C:\Windows\System32 when hosted in IIS.
-AppDomain.CurrentDomain.BaseDirectory // => may point to the bin folder (...\bin\) and not the actual root.
+Environment.CurrentDirectory
 ```
+
+Often returns C:\Windows\System32 when hosted in IIS.
+
+```
+AppDomain.CurrentDomain.BaseDirectory
+```
+
+ May point to the bin folder (...\bin\) and not the actual root.
 
 ## 🧪 Example in Web API Controller:
 ```
@@ -146,12 +166,14 @@ In a C# .NET Framework 4.8 Windows Service, the correct and reliable way to get 
 ## ✅ 1. AppDomain.CurrentDomain.BaseDirectory (Recommended)
 ```
 string folderPath = AppDomain.CurrentDomain.BaseDirectory;
-// => This will return the directory where the Windows Service executable resides, even when it's running as a background service (unlike Directory.GetCurrentDirectory() which is unreliable in that context).
 ```
+
+This will return the directory where the Windows Service executable resides, even when it's running as a background service (unlike Directory.GetCurrentDirectory() which is unreliable in that context).
 
 ## ✅ 2. System.Reflection.Assembly.GetExecutingAssembly().Location
 
 If you need the full path to the executable file:
+
 ```
 using System.Reflection;
 string exePath = Assembly.GetExecutingAssembly().Location;
@@ -161,13 +183,13 @@ string folderPath = Path.GetDirectoryName(exePath);
 ## ❌ Not Recommended: Directory.GetCurrentDirectory()
 ```
 string workingDir = Directory.GetCurrentDirectory();
-// => This can return C:\Windows\System32 or some unexpected location when the service starts — not suitable for locating your deployed files.
 ```
+
+This can return C:\Windows\System32 or some unexpected location when the service starts — not suitable for locating your deployed files.
 
 ## ✅ Example: Load File from Executable Folder
 ```
 string configFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json");
-
 if (File.Exists(configFile))
 {
     string json = File.ReadAllText(configFile);
@@ -228,8 +250,9 @@ This returns the current working directory, which is usually the application roo
 ```
 using System.IO;
 string currentDir = Directory.GetCurrentDirectory();
-// => Useful in static classes or background services without DI.
 ```
+
+Useful in static classes or background services without DI.
 
 ### ✅ 3. Accessing wwwroot
 
@@ -340,20 +363,23 @@ In a C# .NET Core Windows Service, the correct way to get the current folder (ap
 ## ✅ 1. AppContext.BaseDirectory (Best for Windows Services)
 ```
 string baseDir = AppContext.BaseDirectory;
-// => Returns the full path to the folder where the .exe is located. This is the most reliable method in Windows Services.
 ```
+
+Returns the full path to the folder where the .exe is located. This is the most reliable method in Windows Services.
 
 ### ✅ 2. AppDomain.CurrentDomain.BaseDirectory
 ```
 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-// => Also points to the executable directory, same as AppContext.BaseDirectory in most cases.
 ```
+
+Also points to the executable directory, same as AppContext.BaseDirectory in most cases.
 
 ### ✅ 3. Directory.GetCurrentDirectory()
 ```
 string workingDir = Directory.GetCurrentDirectory();
-// => ⚠️ Not reliable in services. It may return C:\Windows\System32 depending on how the service is launched.
 ```
+
+Not reliable in services. It may return C:\Windows\System32 depending on how the service is launched.
 
 ### ✅ Recommended Approach for .NET Core / .NET 5+ Windows Services
 ```
@@ -378,21 +404,24 @@ In a C# .NET Core Console App, the most reliable ways to get the current folder 
 ## ✅ 1. AppContext.BaseDirectory (Recommended)
 ```
 string folderPath = AppContext.BaseDirectory;
-// => Returns the path of the folder containing the .dll or .exe that is being executed.
 ```
+
+Returns the path of the folder containing the .dll or .exe that is being executed.
 
 ## ✅ 2. AppDomain.CurrentDomain.BaseDirectory
 ```
 string folderPath = AppDomain.CurrentDomain.BaseDirectory;
-// => Also returns the directory of the running executable. Works well and is equivalent to AppContext.BaseDirectory in most cases.
 ```
+
+Also returns the directory of the running executable. Works well and is equivalent to AppContext.BaseDirectory in most cases.
 
 ## ⚠️ 3. Directory.GetCurrentDirectory()
 ```
 using System.IO;
 string workingDir = Directory.GetCurrentDirectory();
-// => This returns the current working directory — which may not be the same as the executable location if the app was started from another folder (e.g., via shortcut or script).
 ```
+
+This returns the current working directory — which may not be the same as the executable location if the app was started from another folder (e.g., via shortcut or script).
 
 ## ✅ Example Comparing All 3
 ```
@@ -431,14 +460,14 @@ public void TestSomething()
 }
 ```
 
-=> ✅ This returns the deployment folder MSTest uses when copying files for test execution (usually bin\Debug\TestResults\...).
+✅ This returns the deployment folder MSTest uses when copying files for test execution (usually bin\Debug\TestResults\...).
 
 ## ✅ 2. AppDomain.CurrentDomain.BaseDirectory (Usually bin\Debug)
 ```
 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 ```
 
-=> ✅ This points to your test project's output directory (e.g., bin\Debug), which is reliable for loading test data or expected files included in the project.
+✅ This points to your test project's output directory (e.g., bin\Debug), which is reliable for loading test data or expected files included in the project.
 
 ## ✅ 3. Assembly.GetExecutingAssembly().Location
 ```
@@ -449,14 +478,14 @@ string exePath = Assembly.GetExecutingAssembly().Location;
 string folderPath = Path.GetDirectoryName(exePath);
 ```
 
-=> ✅ Also resolves to the compiled .dll location of the test project.
+✅ Also resolves to the compiled .dll location of the test project.
 
 ## ⚠️ 4. Directory.GetCurrentDirectory() — Not Recommended
 ```
 string workingDir = Directory.GetCurrentDirectory();
 ```
 
-=> ⚠️ May vary depending on how the test is run (e.g., from command line or Test Explorer).
+⚠️ May vary depending on how the test is run (e.g., from command line or Test Explorer).
 
 # 10. C# .NET Core MSTest Unit Testing Get Current Folder
 
@@ -467,13 +496,13 @@ In a C# .NET Core MSTest unit test project, there are several ways to get the cu
 string baseDir = AppDomain.CurrentDomain.BaseDirectory;
 ```
 
-=> ✅ This returns the path to the compiled test project's output folder, typically:
+✅ This returns the path to the compiled test project's output folder, typically:
 
 ```
 bin\Debug\netX.X\
 ```
 
-=> Best for locating files that are copied to output (e.g., if Copy to Output Directory is set to Copy always or Copy if newer).
+Best for locating files that are copied to output (e.g., if Copy to Output Directory is set to Copy always or Copy if newer).
 
 ## ✅ 2. Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
 ```
@@ -483,14 +512,14 @@ using System.IO;
 string exeFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 ```
 
-=> ✅ Also returns the output folder where the test DLL resides.
+✅ Also returns the output folder where the test DLL resides.
 
 ## ✅ 3. Directory.GetCurrentDirectory() (Can be OK)
 ```
 string currentDir = Directory.GetCurrentDirectory();
 ```
 
-=> Usually the same as the above methods when run from Visual Studio or CLI, but may vary in other environments.
+Usually the same as the above methods when run from Visual Studio or CLI, but may vary in other environments.
 
 ## ✅ 4. (Optional) TestContext.TestRunDirectory (if you use [TestContext])
 
@@ -506,7 +535,7 @@ public void TestFolder()
 }
 ```
 
-=> This is MSTest's internal test run output folder. It’s not the same as your compiled output unless configured that way.
+This is MSTest's internal test run output folder. It’s not the same as your compiled output unless configured that way.
 
 ## 🧪 Example
 
